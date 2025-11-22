@@ -24,7 +24,7 @@ A multi-agent discussion simulation using OpenAI's API.
 
 ## Usage
 
-Run the simulation:
+Run the simulation using the virtual environment:
 ```bash
-python main.py
+./venv/bin/python main.py
 ```
