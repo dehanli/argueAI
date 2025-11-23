@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EchoSystem - The Voice of the Environment</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1 class="multi-agent-title">
+                <span class="letter l1">B</span><span class="letter l2">r</span><span class="letter l3">a</span><span class="letter l4">i</span><span class="letter l5">n</span><span class="letter l6">s</span><span class="letter l7">t</span><span class="letter l8">o</span><span class="letter l9">r</span><span class="letter l10">m</span><span class="letter l11">e</span><span class="letter l12">r</span>
+            </h1>
+            <p class="subtitle">Debate. Discover. Decide.</p>
+        </header>
+
+        <div id="setup-panel" class="panel active">
+            <div class="input-group">
+                <label for="topic-input">What do you want to discuss?</label>
+                <input type="text" id="topic-input" placeholder="e.g., Is college important for students?"
+                    value="">
+
+                <div class="suggested-topics">
+                    <p class="label">Need inspiration? Try these:</p>
+                    <div class="topic-list">
+                        <button class="topic-chip" data-text="How does overfishing influence the marine ecosystem in the Great Barrier Reef?">
+                            🐠 Great Barrier Reef Overfishing
+                        </button>
+                        <button class="topic-chip" data-text="To what extent does plastic pollution impact the coastal ecosystem of California?">
+                            🌊 California Plastic Pollution
+                        </button>
+                        <button class="topic-chip" data-text="Whether climate change alters the tundra ecosystem in Greenland remains a critical question—what impacts have been observed so far?">
+                            ❄️ Greenland Tundra Climate Change
+                        </button>
+                        <button class="topic-chip" data-text="If deforestation continues, how might it reshape the mountain ecosystem of the Himalayas?">
+                            🏔️ Himalayas Deforestation
+                        </button>
+                        <button class="topic-chip" data-text="How does illegal logging compare to wildfire damage in affecting Siberia's boreal forest ecosystem?">
+                            🌲 Siberia Forest Wildfire vs Logging
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <button id="start-btn" class="btn primary">Start Simulation</button>
+        </div>
+
+        <div id="debate-panel" class="panel hidden">
+            <div class="topic-display">
+                <span class="label">Current Topic:</span>
+                <span id="current-topic-text"></span>
+            </div>
+
+            <div id="agents-display" class="agents-display hidden">
+                <span class="label">Ecosystem Voices:</span>
+                <div id="agents-list"></div>
+            </div>
+
+            <div id="chat-container" class="chat-container">
+                <!-- Messages will appear here -->
+            </div>
+
+            <div id="user-input-area" class="user-input-area hidden">
+                <div class="voice-selector-container">
+                    <label for="voice-selector" class="voice-label">Your Voice:</label>
+                    <select id="voice-selector" class="voice-selector">
+                        <option value="">Loading voices...</option>
+                    </select>
+                </div>
+                <input type="text" id="user-message-input" placeholder="Type your message to join the discussion...">
+                <button id="send-user-message-btn" class="btn primary">Send</button>
+            </div>
+
+            <div class="controls">
+                <button id="next-turn-btn" class="btn secondary">Next Turn</button>
+                <button id="auto-play-btn" class="btn toggle-btn">Auto Play: OFF</button>
+                <button id="toggle-input-btn" class="btn toggle-btn">User Input: OFF</button>
+                <button id="mode-toggle-btn" class="btn toggle-btn">Mode: Auto</button>
+                <div id="status-indicator" class="status hidden">Agent is thinking...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Voice Cloning Modal -->
+    <div id="voice-cloning-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create Your Voice Clone</h2>
+                <button id="close-modal-btn" class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <label for="voice-name-input">Voice Name</label>
+                    <input type="text" id="voice-name-input" placeholder="e.g., My Voice" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Read the following text aloud:</label>
+                    <div class="reading-text">
+                        "The quick brown fox jumps over the lazy dog. This voice clone will capture your unique tone and speaking style. Please speak clearly and naturally."
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Record Your Voice</label>
+                    <div class="recording-controls">
+                        <button id="record-btn" class="btn secondary">
+                            <span class="record-icon">🎤</span> Start Recording
+                        </button>
+                        <div id="recording-timer" class="recording-timer hidden">0:00</div>
+                    </div>
+                    <p class="hint">Recommended: 10-30 seconds of clear speech</p>
+                    <audio id="playback-audio" class="playback-audio hidden" controls></audio>
+                </div>
+
+                <div class="input-group">
+                    <label for="voice-description-input">Description (Optional)</label>
+                    <textarea id="voice-description-input" placeholder="Describe this voice..." rows="3"></textarea>
+                </div>
+
+                <button id="create-voice-btn" class="btn primary" disabled>Create Voice Clone</button>
+                <div id="cloning-status" class="status-message hidden"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/script.js?v=7"></script>
+</body>
+
+</html>
