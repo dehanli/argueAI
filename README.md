@@ -65,11 +65,7 @@ FRONTEND_PORT=3000
 DATABASE_PATH=./backend/discussions.db
 ```
 
-**⚠️ Important Security Warning**:
-- **Immediately delete the hardcoded API key in test.py** (Line 70)
-- Go to [OpenAI Platform](https://platform.openai.com/api-keys) to delete the leaked key
-- Generate a new API key and configure it in the `.env` file
-- **NEVER** commit the `.env` file to Git
+
 
 ### 3. Install Backend Dependencies
 
