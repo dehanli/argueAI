@@ -1,122 +1,122 @@
-# 🤖 AI多智能体讨论系统
+# 🤖 AI Multi-Agent Discussion System
 
-一个基于AutoGen的多智能体讨论系统，让哲学家、科学家、艺术家三位AI从不同角度展开思想碰撞。
+A multi-agent discussion system based on AutoGen, allowing three AI agents—a philosopher, a scientist, and an artist—to engage in intellectual collisions from different perspectives.
 
-## ✨ 特性
+## ✨ Features
 
-- 🧙 **三位AI智能体**：哲学家、科学家、艺术家，各自从专业角度发表观点
-- 🔍 **实时搜索**：智能体可以调用DuckDuckGo搜索获取真实资料
-- 💬 **实时对话流**：通过WebSocket实时推送讨论进展
-- 📚 **讨论历史**：所有讨论都保存在本地SQLite数据库
-- 🎨 **现代UI**：React前端，清爽的聊天界面
+- 🧙 **Three AI Agents**: Philosopher, Scientist, Artist, each expressing views from their professional perspective
+- 🔍 **Real-time Search**: Agents can call DuckDuckGo Search to obtain real-world data
+- 💬 **Real-time Dialogue Flow**: Push discussion progress in real-time via WebSocket
+- 📚 **Discussion History**: All discussions are saved in a local SQLite database
+- 🎨 **Modern UI**: React frontend with a clean chat interface
 
-## 🏗️ 技术栈
+## 🏗️ Tech Stack
 
-### 后端
-- **FastAPI** - 高性能Web框架
-- **AutoGen** - 多智能体编排框架
-- **SQLAlchemy** - ORM数据库管理
-- **WebSocket** - 实时通信
-- **DuckDuckGo Search** - 搜索引擎API
+### Backend
+- **FastAPI** - High-performance Web framework
+- **AutoGen** - Multi-agent orchestration framework
+- **SQLAlchemy** - ORM database management
+- **WebSocket** - Real-time communication
+- **DuckDuckGo Search** - Search engine API
 
-### 前端
-- **React** - UI框架
-- **Axios** - HTTP客户端
-- **WebSocket** - 实时消息接收
+### Frontend
+- **React** - UI framework
+- **Axios** - HTTP client
+- **WebSocket** - Real-time message receiving
 
-### 数据库
-- **SQLite** - 轻量级本地数据库
+### Database
+- **SQLite** - Lightweight local database
 
-## 📦 安装和启动
+## 📦 Installation and Startup
 
-### 前置要求
+### Prerequisites
 - Python 3.9+
 - Node.js 16+
-- npm 或 yarn
+- npm or yarn
 - OpenAI API Key
 
-### 1. 克隆项目（如果是从git获取）
+### 1. Clone the project (if obtaining from git)
 
 ```bash
 cd multi-ai
 ```
 
-### 2. 配置环境变量
+### 2. Configure Environment Variables
 
-复制示例配置文件并填入你的OpenAI API密钥：
+Copy the example configuration file and fill in your OpenAI API key:
 
 ```bash
 cp .env.example .env
 ```
 
-编辑 `.env` 文件：
+Edit the `.env` file:
 
 ```env
-# OpenAI配置
+# OpenAI Configuration
 OPENAI_API_KEY=sk-your-openai-api-key-here
 OPENAI_MODEL=gpt-4o-mini
 
-# 服务器配置
+# Server Configuration
 BACKEND_HOST=127.0.0.1
 BACKEND_PORT=8000
 FRONTEND_PORT=3000
 
-# 数据库配置
+# Database Configuration
 DATABASE_PATH=./backend/discussions.db
 ```
 
-**⚠️ 重要安全提示**：
-- **立即删除test.py中的硬编码API密钥**（第70行）
-- 前往 [OpenAI Platform](https://platform.openai.com/api-keys) 删除泄露的密钥
-- 生成新的API密钥并配置到 `.env` 文件
-- **绝不**要将 `.env` 文件提交到Git
+**⚠️ Important Security Warning**:
+- **Immediately delete the hardcoded API key in test.py** (Line 70)
+- Go to [OpenAI Platform](https://platform.openai.com/api-keys) to delete the leaked key
+- Generate a new API key and configure it in the `.env` file
+- **NEVER** commit the `.env` file to Git
 
-### 3. 安装后端依赖
+### 3. Install Backend Dependencies
 
 ```bash
 cd backend
 pip install -r requirements.txt
 ```
 
-或使用虚拟环境（推荐）：
+Or use a virtual environment (recommended):
 
 ```bash
 cd backend
 python -m venv venv
-source venv/bin/activate  # Windows使用: venv\Scripts\activate
+source venv/bin/activate  # Windows use: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### 4. 安装前端依赖
+### 4. Install Frontend Dependencies
 
 ```bash
 cd frontend
 npm install
 ```
 
-### 5. 启动应用
+### 5. Start the Application
 
-#### 方法一：分别启动（推荐用于开发）
+#### Method 1: Start Separately (Recommended for Development)
 
-**启动后端**（新终端窗口）：
+**Start Backend** (New Terminal Window):
 ```bash
 cd backend
 python main.py
 ```
 
-后端将运行在 `http://localhost:8000`
+The backend will run at `http://localhost:8000`
 
-**启动前端**（新终端窗口）：
+**Start Frontend** (New Terminal Window):
 ```bash
 cd frontend
 npm start
 ```
 
-前端将运行在 `http://localhost:3000` 并自动打开浏览器
+The frontend will run at `http://localhost:3000` and automatically open the browser.
 
-#### 方法二：使用启动脚本（可选）
+#### Method 2: Use Startup Script (Optional)
 
-创建一个启动脚本 `start.sh`（macOS/Linux）：
+Create a startup script `start.sh` (macOS/Linux):
 
 ```bash
 #!/bin/bash
@@ -125,121 +125,122 @@ cd frontend && npm start &
 wait
 ```
 
-## 🎯 使用方法
+## 🎯 Usage
 
-1. 打开浏览器访问 `http://localhost:3000`
-2. 在输入框中输入讨论主题，例如：
-   - "什么是真实？"
-   - "AI会取代人类吗？"
-   - "黑客松的评选标准应该是什么？"
-3. 点击"开始讨论"按钮
-4. 观看三位AI智能体从哲学、科学、艺术角度展开讨论
-5. 左侧可以查看讨论历史记录
+1. Open browser and visit `http://localhost:3000`
+2. Enter a discussion topic in the input box, for example:
+   - "What is reality?"
+   - "Will AI replace humans?"
+   - "What should be the judging criteria for a hackathon?"
+3. Click the "Start Discussion" button
+4. Watch the three AI agents discuss from philosophical, scientific, and artistic perspectives
+5. View discussion history on the left
 
-## 📁 项目结构
+## 📁 Project Structure
 
 ```
 multi-ai/
-├── backend/                 # Python后端
-│   ├── main.py             # FastAPI入口
-│   ├── agents.py           # AutoGen多智能体逻辑
-│   ├── database.py         # SQLite数据库模型
-│   ├── requirements.txt    # Python依赖
-│   └── discussions.db      # SQLite数据库（运行后生成）
-├── frontend/               # React前端
+├── backend/                 # Python Backend
+│   ├── main.py             # FastAPI Entry
+│   ├── agents.py           # AutoGen Multi-Agent Logic
+│   ├── database.py         # SQLite Database Models
+│   ├── requirements.txt    # Python Dependencies
+│   └── discussions.db      # SQLite Database (Generated after running)
+├── frontend/               # React Frontend
 │   ├── src/
-│   │   ├── App.js         # 主应用组件
-│   │   └── App.css        # 样式文件
+│   │   ├── App.js         # Main App Component
+│   │   └── App.css        # Style File
 │   ├── public/
-│   └── package.json       # Node.js依赖
-├── .env                    # 环境变量（需自行创建）
-├── .env.example           # 环境变量示例
-├── .gitignore             # Git忽略文件
-├── test.py                # 原始命令行版本（已废弃）
-└── README.md              # 本文件
+│   └── package.json       # Node.js Dependencies
+├── .env                    # Environment Variables (Create manually)
+├── .env.example           # Environment Variables Example
+├── .gitignore             # Git Ignore File
+├── test.py                # Original Command Line Version (Deprecated)
+└── README.md              # This File
 ```
 
-## 🔧 API接口
+## 🔧 API Endpoints
 
 ### REST API
 
-- `GET /` - 健康检查
-- `POST /discussions` - 创建新讨论
-- `GET /discussions` - 获取讨论列表
-- `GET /discussions/{id}` - 获取单个讨论
-- `GET /discussions/{id}/messages` - 获取讨论消息
+- `GET /` - Health Check
+- `POST /discussions` - Create New Discussion
+- `GET /discussions` - Get Discussion List
+- `GET /discussions/{id}` - Get Single Discussion
+- `GET /discussions/{id}/messages` - Get Discussion Messages
 
 ### WebSocket
 
-- `WS /ws/discuss/{discussion_id}` - 实时讨论通信
+- `WS /ws/discuss/{discussion_id}` - Real-time Discussion Communication
 
-## 🐛 常见问题
+## 🐛 Common Issues
 
-### 后端无法启动
+### Backend Fails to Start
 
-**问题**：`ModuleNotFoundError: No module named 'xxx'`
+**Issue**: `ModuleNotFoundError: No module named 'xxx'`
 
-**解决**：
+**Solution**:
 ```bash
 cd backend
 pip install -r requirements.txt
 ```
 
-### 前端无法连接后端
+### Frontend Cannot Connect to Backend
 
-**问题**：前端显示"连接错误，请检查后端是否运行"
+**Issue**: Frontend shows "Connection error, please check if backend is running"
 
-**解决**：
-1. 确认后端已启动：访问 `http://localhost:8000`
-2. 检查CORS配置（已在代码中配置）
-3. 检查端口是否被占用
+**Solution**:
+1. Confirm backend is started: Visit `http://localhost:8000`
+2. Check CORS configuration (Already configured in code)
+3. Check if port is occupied
 
-### OpenAI API错误
+### OpenAI API Error
 
-**问题**：`AuthenticationError` 或 `Rate limit exceeded`
+**Issue**: `AuthenticationError` or `Rate limit exceeded`
 
-**解决**：
-1. 检查 `.env` 文件中的 `OPENAI_API_KEY` 是否正确
-2. 确认OpenAI账户有余额
-3. 如果超过速率限制，等待几分钟后重试
+**Solution**:
+1. Check if `OPENAI_API_KEY` in `.env` file is correct
+2. Confirm OpenAI account has balance
+3. If rate limit exceeded, wait a few minutes and retry
 
-### 讨论没有实时更新
+### Discussion Not Updating in Real-time
 
-**问题**：消息不实时显示
+**Issue**: Messages do not display in real-time
 
-**原因**：当前版本的消息拦截机制是临时实现，AutoGen的输出需要更深度集成
+**Reason**: Current message interception mechanism is a temporary implementation; AutoGen output needs deeper integration
 
-**临时解决方案**：讨论完成后刷新页面查看完整历史
+**Temporary Solution**: Refresh the page after discussion completes to view full history
 
-## 🚀 后续优化建议
+## 🚀 Future Optimization Suggestions
 
-1. **消息实时推送优化**
-   - 当前：AutoGen是同步执行，消息拦截较困难
-   - 改进：实现AutoGen的消息钩子或使用流式输出
+1. **Real-time Message Push Optimization**
+   - Current: AutoGen executes synchronously, message interception is difficult
+   - Improvement: Implement AutoGen message hooks or use streaming output
 
-2. **用户交互增强**
-   - 允许用户中途加入讨论
-   - 支持自定义AI角色和人设
-   - 调整讨论轮数和搜索策略
+2. **User Interaction Enhancement**
+   - Allow users to join discussion mid-way
+   - Support custom AI roles and personas
+   - Adjust discussion rounds and search strategies
 
-3. **部署优化**
-   - Docker容器化
-   - 使用PostgreSQL替代SQLite
-   - 添加用户认证系统
+3. **Deployment Optimization**
+   - Docker containerization
+   - Use PostgreSQL instead of SQLite
+   - Add user authentication system
 
-4. **性能优化**
-   - 异步处理讨论任务
-   - 缓存搜索结果
-   - 消息分页加载
+4. **Performance Optimization**
+   - Asynchronous discussion task processing
+   - Cache search results
+   - Message pagination loading
 
-## 📄 许可证
+## 📄 License
 
 MIT License
 
-## 🤝 贡献
+## 🤝 Contribution
 
-欢迎提交Issue和Pull Request！
+Issues and Pull Requests are welcome!
 
 ---
 
-**警告**：请务必保护好你的OpenAI API密钥，不要泄露到公共代码仓库！
+**Warning**: Please be sure to protect your OpenAI API key and do not leak it to public code repositories!
+

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""测试AutoGen GroupChat"""
+"""Test AutoGen GroupChat"""
 import os
 from dotenv import load_dotenv
 load_dotenv()
@@ -12,10 +12,10 @@ config = {
         'api_key': os.getenv('OPENAI_API_KEY'),
     }],
     'temperature': 0.7,
-    'timeout': 15  # 加timeout
+    'timeout': 15  # Add timeout
 }
 
-print("创建Agents...")
+print("Creating Agents...")
 agent1 = ConversableAgent(
     name="Agent1",
     system_message="You are helpful. Reply in 1 sentence.",
@@ -30,7 +30,7 @@ agent2 = ConversableAgent(
     human_input_mode="NEVER"
 )
 
-print("创建GroupChat...")
+print("Creating GroupChat...")
 groupchat = GroupChat(
     agents=[agent1, agent2],
     messages=[],
@@ -38,23 +38,23 @@ groupchat = GroupChat(
     speaker_selection_method="auto"
 )
 
-print("创建Manager...")
+print("Creating Manager...")
 manager = GroupChatManager(
     groupchat=groupchat,
     llm_config=config
 )
 
-print("开始讨论...")
+print("Starting discussion...")
 try:
     result = agent1.initiate_chat(
         manager,
         message="Say hi",
         max_turns=2
     )
-    print(f"\n✓ 讨论完成，消息数: {len(groupchat.messages)}")
+    print(f"\n✓ Discussion completed, message count: {len(groupchat.messages)}")
     for msg in groupchat.messages:
         print(f"  - {msg}")
 except Exception as e:
     import traceback
-    print(f"\n✗ 讨论失败:")
+    print(f"\n✗ Discussion failed:")
     traceback.print_exc()
