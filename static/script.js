@@ -8,45 +8,76 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatContainer = document.getElementById('chat-container');
     const statusIndicator = document.getElementById('status-indicator');
 
+    // Suggested Topics Handler
+    document.querySelectorAll('.topic-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+            topicInput.value = chip.getAttribute('data-text');
+            topicInput.focus();
+        });
+    });
+
     let isProcessing = false;
+    let currentAudio = null;  // Track currently playing audio
 
     startBtn.addEventListener('click', async () => {
         const topic = topicInput.value.trim();
         if (!topic) return;
 
-        // Switch panels
-        setupPanel.classList.remove('active');
-        setupPanel.classList.add('hidden');
-        
-        // Wait for animation
-        setTimeout(() => {
-            setupPanel.style.display = 'none';
-            debatePanel.classList.remove('hidden');
-            debatePanel.classList.add('active');
-        }, 300);
-
-        currentTopicText.textContent = topic;
+        // Show loading state
+        startBtn.disabled = true;
+        startBtn.textContent = "Generating agents...";
 
         try {
-            await fetch('/start_debate', {
+            const result = await fetch('/start_debate', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ topic })
             });
-            
+
+            const data = await result.json();
+
+            // Switch panels
+            setupPanel.classList.remove('active');
+            setupPanel.classList.add('hidden');
+
+            // Wait for animation
+            setTimeout(() => {
+                setupPanel.style.display = 'none';
+                debatePanel.classList.remove('hidden');
+                debatePanel.classList.add('active');
+            }, 300);
+
+            currentTopicText.textContent = topic;
+
+            // Display generated agents
+            displayAgents(data.agents);
+
             // Auto-trigger first turn
-            triggerNextTurn();
+            setTimeout(() => triggerNextTurn(), 500);
         } catch (error) {
             console.error('Error starting debate:', error);
+            startBtn.textContent = "Start Simulation";
+            startBtn.disabled = false;
         }
     });
 
-    nextTurnBtn.addEventListener('click', triggerNextTurn);
+    nextTurnBtn.addEventListener('click', () => {
+        // If audio is currently playing, skip it
+        if (currentAudio && !currentAudio.paused) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+            currentAudio = null;
+            statusIndicator.classList.add('hidden');
+            isProcessing = false;
+            nextTurnBtn.textContent = "Next Turn";
+            return; // Don't trigger next turn, just stop current audio
+        }
+        triggerNextTurn();
+    });
 
     async function triggerNextTurn() {
         if (isProcessing) return;
         isProcessing = true;
-        nextTurnBtn.disabled = true;
         statusIndicator.classList.remove('hidden');
         statusIndicator.textContent = "Agent is thinking...";
 
@@ -56,12 +87,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (data.status === 'finished') {
                 statusIndicator.textContent = "Debate finished.";
+                isProcessing = false;
                 return;
             }
 
             if (data.error) {
                 console.error(data.error);
                 statusIndicator.textContent = "Error occurred.";
+                isProcessing = false;
                 return;
             }
 
@@ -71,28 +104,29 @@ document.addEventListener('DOMContentLoaded', () => {
             // Play audio
             if (data.audio_url) {
                 statusIndicator.textContent = "Speaking...";
-                const audio = new Audio(data.audio_url);
-                audio.onended = () => {
+                nextTurnBtn.textContent = "Skip";  // Change button text during playback
+                currentAudio = new Audio(data.audio_url);
+                currentAudio.onended = () => {
                     statusIndicator.classList.add('hidden');
                     isProcessing = false;
-                    nextTurnBtn.disabled = false;
+                    nextTurnBtn.textContent = "Next Turn";
+                    currentAudio = null;
                 };
-                audio.play().catch(e => {
+                currentAudio.play().catch(e => {
                     console.warn("Audio play failed (likely browser policy):", e);
                     isProcessing = false;
-                    nextTurnBtn.disabled = false;
                     statusIndicator.classList.add('hidden');
+                    nextTurnBtn.textContent = "Next Turn";
+                    currentAudio = null;
                 });
             } else {
                 isProcessing = false;
-                nextTurnBtn.disabled = false;
                 statusIndicator.classList.add('hidden');
             }
 
         } catch (error) {
             console.error('Error fetching turn:', error);
             isProcessing = false;
-            nextTurnBtn.disabled = false;
             statusIndicator.classList.add('hidden');
         }
     }
@@ -100,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function addMessageToChat(agent, text) {
         const messageDiv = document.createElement('div');
         messageDiv.classList.add('message');
-        
+
         // Determine class based on agent name (simple heuristic)
         if (agent.toLowerCase().includes('lake')) {
             messageDiv.classList.add('lake');
@@ -118,8 +152,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
         messageDiv.appendChild(nameSpan);
         messageDiv.appendChild(textNode);
-        
+
         chatContainer.appendChild(messageDiv);
         chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    function displayAgents(agents) {
+        const agentsList = document.getElementById('agents-list');
+        const agentsDisplay = document.getElementById('agents-display');
+
+        agentsList.innerHTML = '';
+
+        agents.forEach(agent => {
+            const badge = document.createElement('div');
+            badge.classList.add('agent-badge');
+
+            const nameSpan = document.createElement('span');
+            nameSpan.classList.add('agent-name');
+            nameSpan.textContent = agent.name;
+
+            const roleSpan = document.createElement('span');
+            roleSpan.classList.add('agent-role');
+            roleSpan.textContent = agent.role;
+
+            badge.appendChild(nameSpan);
+            badge.appendChild(roleSpan);
+            agentsList.appendChild(badge);
+        });
+
+        agentsDisplay.classList.remove('hidden');
     }
 });

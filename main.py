@@ -27,9 +27,9 @@ def chat(agent, topic, conversation_history):
     ]
 
     response = client.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-5.1",
         messages=messages,
-        max_tokens=200
+        max_completion_tokens=200
     )
 
     return response.choices[0].message.content

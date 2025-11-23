@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/style.css">
 </head>
+
 <body>
     <div class="container">
         <header>
@@ -19,7 +21,29 @@
         <div id="setup-panel" class="panel active">
             <div class="input-group">
                 <label for="topic-input">What social issue should the ecosystem debate?</label>
-                <input type="text" id="topic-input" placeholder="e.g., Building a new parking lot by the lake" value="Building a new parking lot by the lake">
+                <input type="text" id="topic-input" placeholder="e.g., Building a new parking lot by the lake"
+                    value="">
+                
+                <div class="suggested-topics">
+                    <p class="label">Need inspiration? Try these:</p>
+                    <div class="topic-list">
+                        <button class="topic-chip" data-text="How does overfishing influence the marine ecosystem in the Great Barrier Reef?">
+                            🐠 Great Barrier Reef Overfishing
+                        </button>
+                        <button class="topic-chip" data-text="To what extent does plastic pollution impact the coastal ecosystem of California?">
+                            🌊 California Plastic Pollution
+                        </button>
+                        <button class="topic-chip" data-text="Whether climate change alters the tundra ecosystem in Greenland remains a critical question—what impacts have been observed so far?">
+                            ❄️ Greenland Tundra Climate Change
+                        </button>
+                        <button class="topic-chip" data-text="If deforestation continues, how might it reshape the mountain ecosystem of the Himalayas?">
+                            🏔️ Himalayas Deforestation
+                        </button>
+                        <button class="topic-chip" data-text="How does illegal logging compare to wildfire damage in affecting Siberia’s boreal forest ecosystem?">
+                            🌲 Siberia Forest Wildfire vs Logging
+                        </button>
+                    </div>
+                </div>
             </div>
             <button id="start-btn" class="btn primary">Start Simulation</button>
         </div>
@@ -29,7 +53,12 @@
                 <span class="label">Current Topic:</span>
                 <span id="current-topic-text"></span>
             </div>
-            
+
+            <div id="agents-display" class="agents-display hidden">
+                <span class="label">Ecosystem Voices:</span>
+                <div id="agents-list"></div>
+            </div>
+
             <div id="chat-container" class="chat-container">
                 <!-- Messages will appear here -->
             </div>
@@ -43,4 +72,5 @@
 
     <script src="/static/script.js"></script>
 </body>
+
 </html>

@@ -23,22 +23,32 @@ def start_debate():
     if not topic:
         return jsonify({"error": "Topic is required"}), 400
     
+    # Generate agents and start debate (this may take a few seconds)
     debate_manager.start_debate(topic)
-    return jsonify({"status": "started", "topic": topic})
+    
+    # Return status with generated agents
+    return jsonify({
+        "status": "started",
+        "topic": topic,
+        "agents": [
+            {"name": agent["name"], "role": agent["role"]}
+            for agent in debate_manager.agents
+        ]
+    })
 
 @app.route('/next_turn', methods=['POST'])
 def next_turn():
     try:
-        # Get the next agent's response
-        agent_name, text = debate_manager.next_turn()
+        # Get the next agent's response with emotion
+        agent_name, text, emotion = debate_manager.next_turn()
         
         if not text:
             return jsonify({"status": "finished"})
 
-        # Generate audio
+        # Generate audio with emotion
         # We use a simple mapping or the agent's internal ID to pick a voice
         voice_id = debate_manager.get_agent_voice_id(agent_name)
-        audio_filename = fish_audio.generate_speech(text, voice_id)
+        audio_filename = fish_audio.generate_speech(text, voice_id, emotion)
         
         return jsonify({
             "status": "ongoing",
@@ -56,4 +66,4 @@ def serve_audio(filename):
 if __name__ == '__main__':
     # Ensure audio directory exists
     os.makedirs('static/audio', exist_ok=True)
-    app.run(debug=True, port=5002)
+    app.run(debug=True, port=5001)

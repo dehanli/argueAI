@@ -12,11 +12,15 @@ class FishAudioService:
             self.session = None
             print("Warning: No Fish Audio API key provided. Audio generation will be skipped/mocked.")
 
-    def generate_speech(self, text, voice_id=None):
+    def generate_speech(self, text, voice_id=None, emotion=None):
         """
         Generates speech for the given text.
         Returns the path to the saved audio file.
-        Note: voice_id is currently ignored as we use the default voice.
+        
+        Args:
+            text: The text to convert to speech
+            voice_id: Optional voice model ID
+            emotion: Optional emotion (happy, sad, angry, fearful, disgusted, surprised, calm, fluent, auto)
         """
         filename = f"{uuid.uuid4()}.mp3"
         filepath = os.path.join("static/audio", filename)
@@ -33,9 +37,15 @@ class FishAudioService:
             return filepath
 
         try:
-            # Use the Fish Audio SDK with default voice
-            # The TTSRequest can be created with just text
-            request = TTSRequest(text=text, reference_id=voice_id) if voice_id else TTSRequest(text=text)
+            # Use the Fish Audio SDK with emotion parameter
+            # Build TTSRequest with emotion if provided
+            request_params = {"text": text}
+            if voice_id:
+                request_params["reference_id"] = voice_id
+            if emotion:
+                request_params["emotion"] = emotion
+            
+            request = TTSRequest(**request_params)
             
             with open(filepath, "wb") as f:
                 for chunk in self.session.tts(request):
