@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EchoSystem - The Voice of the Environment</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>EchoSystem</h1>
+            <p class="subtitle">Simulating complex decisions through the voices of the environment.</p>
+        </header>
+
+        <div id="setup-panel" class="panel active">
+            <div class="input-group">
+                <label for="topic-input">What social issue should the ecosystem debate?</label>
+                <input type="text" id="topic-input" placeholder="e.g., Building a new parking lot by the lake" value="Building a new parking lot by the lake">
+            </div>
+            <button id="start-btn" class="btn primary">Start Simulation</button>
+        </div>
+
+        <div id="debate-panel" class="panel hidden">
+            <div class="topic-display">
+                <span class="label">Current Topic:</span>
+                <span id="current-topic-text"></span>
+            </div>
+            
+            <div id="chat-container" class="chat-container">
+                <!-- Messages will appear here -->
+            </div>
+
+            <div class="controls">
+                <button id="next-turn-btn" class="btn secondary">Next Turn</button>
+                <div id="status-indicator" class="status hidden">Agent is thinking...</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
