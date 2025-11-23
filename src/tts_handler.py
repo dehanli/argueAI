@@ -8,13 +8,14 @@ import base64
 from typing import Optional
 
 # Fish Audio available voice profiles (selected based on character traits)
-# Real voice IDs from documentation
+# Real voice IDs from documentation - All support S1 emotion control
+# Using Energetic Male for all to test emotion control consistency
 VOICE_PROFILES = {
-    "male_young": "802e3bc2b27e49c2995d23ef70e6ac89",  # Energetic Male
-    "male_mature": "536d3a5e000945adb7038665781a4aca",  # Ethan
-    "female_young": "8ef4a238714b45718ce04243307c57a7",  # E-girl
-    "female_mature": "933563129e564b19a115bedd57b7406a",  # Sarah
-    "neutral": "bf322df2096a46f18c579d0baa36f41d",  # Adrian
+    "male_young": "802e3bc2b27e49c2995d23ef70e6ac89",  # Energetic Male - verified emotion control
+    "male_mature": "802e3bc2b27e49c2995d23ef70e6ac89",  # Energetic Male (temp for testing)
+    "female_young": "802e3bc2b27e49c2995d23ef70e6ac89",  # Energetic Male (temp for testing)
+    "female_mature": "802e3bc2b27e49c2995d23ef70e6ac89",  # Energetic Male (temp for testing)
+    "neutral": "802e3bc2b27e49c2995d23ef70e6ac89",  # Energetic Male (temp for testing)
 }
 
 def select_voice_for_role(role_name: str, personality: str) -> str:
@@ -64,7 +65,8 @@ async def generate_tts(text: str, voice_id: str) -> Optional[str]:
         print("⚠️ FISH_AUDIO_API_KEY not found, skipping TTS")
         return None
 
-    print(f"🎤 Starting TTS synthesis (voice: {voice_id}): {text[:50]}...")
+    print(f"🎤 Starting TTS synthesis (voice: {voice_id}): {text[:80]}...")
+    print(f"   📝 Full text for TTS: {repr(text)}")
 
     try:
         # Prepare request data
