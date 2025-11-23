@@ -1,242 +1,92 @@
-# 🤖 AI Multi-Agent Discussion System
-
-A multi-agent discussion system based on AutoGen, allowing three AI agents—a philosopher, a scientist, and an artist—to engage in intellectual collisions from different perspectives.
-
-## ✨ Features
-
-- 🧙 **Three AI Agents**: Philosopher, Scientist, Artist, each expressing views from their professional perspective
-- 🔍 **Real-time Search**: Agents can call DuckDuckGo Search to obtain real-world data
-- 💬 **Real-time Dialogue Flow**: Push discussion progress in real-time via WebSocket
-- 📚 **Discussion History**: All discussions are saved in a local SQLite database
-- 🎨 **Modern UI**: React frontend with a clean chat interface
-
-## 🏗️ Tech Stack
-
-### Backend
-- **FastAPI** - High-performance Web framework
-- **AutoGen** - Multi-agent orchestration framework
-- **SQLAlchemy** - ORM database management
-- **WebSocket** - Real-time communication
-- **DuckDuckGo Search** - Search engine API
-
-### Frontend
-- **React** - UI framework
-- **Axios** - HTTP client
-- **WebSocket** - Real-time message receiving
-
-### Database
-- **SQLite** - Lightweight local database
-
-## 📦 Installation and Startup
-
-### Prerequisites
-- Python 3.9+
-- Node.js 16+
-- npm or yarn
-- OpenAI API Key
-
-### 1. Clone the project (if obtaining from git)
-
-```bash
-cd multi-ai
-```
-
-### 2. Configure Environment Variables
-
-Copy the example configuration file and fill in your OpenAI API key:
-
-```bash
-cp .env.example .env
-```
-
-Edit the `.env` file:
-
-```env
-# OpenAI Configuration
-OPENAI_API_KEY=sk-your-openai-api-key-here
-OPENAI_MODEL=gpt-4o-mini
-
-# Server Configuration
-BACKEND_HOST=127.0.0.1
-BACKEND_PORT=8000
-FRONTEND_PORT=3000
-
-# Database Configuration
-DATABASE_PATH=./backend/discussions.db
-```
-
-
-
-### 3. Install Backend Dependencies
-
-```bash
-cd backend
-pip install -r requirements.txt
-```
-
-Or use a virtual environment (recommended):
-
-```bash
-cd backend
-python -m venv venv
-source venv/bin/activate  # Windows use: venv\Scripts\activate
-pip install -r requirements.txt
-```
-
-### 4. Install Frontend Dependencies
-
-```bash
-cd frontend
-npm install
-```
-
-### 5. Start the Application
-
-#### Method 1: Start Separately (Recommended for Development)
-
-**Start Backend** (New Terminal Window):
-```bash
-cd backend
-python main.py
-```
-
-The backend will run at `http://localhost:8000`
-
-**Start Frontend** (New Terminal Window):
-```bash
-cd frontend
-npm start
-```
-
-The frontend will run at `http://localhost:3000` and automatically open the browser.
-
-#### Method 2: Use Startup Script (Optional)
-
-Create a startup script `start.sh` (macOS/Linux):
-
-```bash
-#!/bin/bash
-cd backend && python main.py &
-cd frontend && npm start &
-wait
-```
-
-## 🎯 Usage
-
-1. Open browser and visit `http://localhost:3000`
-2. Enter a discussion topic in the input box, for example:
-   - "What is reality?"
-   - "Will AI replace humans?"
-   - "What should be the judging criteria for a hackathon?"
-3. Click the "Start Discussion" button
-4. Watch the three AI agents discuss from philosophical, scientific, and artistic perspectives
-5. View discussion history on the left
-
-## 📁 Project Structure
-
-```
-multi-ai/
-├── backend/                 # Python Backend
-│   ├── main.py             # FastAPI Entry
-│   ├── agents.py           # AutoGen Multi-Agent Logic
-│   ├── database.py         # SQLite Database Models
-│   ├── requirements.txt    # Python Dependencies
-│   └── discussions.db      # SQLite Database (Generated after running)
-├── frontend/               # React Frontend
-│   ├── src/
-│   │   ├── App.js         # Main App Component
-│   │   └── App.css        # Style File
-│   ├── public/
-│   └── package.json       # Node.js Dependencies
-├── .env                    # Environment Variables (Create manually)
-├── .env.example           # Environment Variables Example
-├── .gitignore             # Git Ignore File
-├── test.py                # Original Command Line Version (Deprecated)
-└── README.md              # This File
-```
-
-## 🔧 API Endpoints
-
-### REST API
-
-- `GET /` - Health Check
-- `POST /discussions` - Create New Discussion
-- `GET /discussions` - Get Discussion List
-- `GET /discussions/{id}` - Get Single Discussion
-- `GET /discussions/{id}/messages` - Get Discussion Messages
-
-### WebSocket
-
-- `WS /ws/discuss/{discussion_id}` - Real-time Discussion Communication
-
-## 🐛 Common Issues
-
-### Backend Fails to Start
-
-**Issue**: `ModuleNotFoundError: No module named 'xxx'`
-
-**Solution**:
-```bash
-cd backend
-pip install -r requirements.txt
-```
-
-### Frontend Cannot Connect to Backend
-
-**Issue**: Frontend shows "Connection error, please check if backend is running"
-
-**Solution**:
-1. Confirm backend is started: Visit `http://localhost:8000`
-2. Check CORS configuration (Already configured in code)
-3. Check if port is occupied
-
-### OpenAI API Error
-
-**Issue**: `AuthenticationError` or `Rate limit exceeded`
-
-**Solution**:
-1. Check if `OPENAI_API_KEY` in `.env` file is correct
-2. Confirm OpenAI account has balance
-3. If rate limit exceeded, wait a few minutes and retry
-
-### Discussion Not Updating in Real-time
-
-**Issue**: Messages do not display in real-time
-
-**Reason**: Current message interception mechanism is a temporary implementation; AutoGen output needs deeper integration
-
-**Temporary Solution**: Refresh the page after discussion completes to view full history
-
-## 🚀 Future Optimization Suggestions
-
-1. **Real-time Message Push Optimization**
-   - Current: AutoGen executes synchronously, message interception is difficult
-   - Improvement: Implement AutoGen message hooks or use streaming output
-
-2. **User Interaction Enhancement**
-   - Allow users to join discussion mid-way
-   - Support custom AI roles and personas
-   - Adjust discussion rounds and search strategies
-
-3. **Deployment Optimization**
-   - Docker containerization
-   - Use PostgreSQL instead of SQLite
-   - Add user authentication system
-
-4. **Performance Optimization**
-   - Asynchronous discussion task processing
-   - Cache search results
-   - Message pagination loading
-
-## 📄 License
-
-MIT License
-
-## 🤝 Contribution
-
-Issues and Pull Requests are welcome!
+# Brainstormer
+
+## Inspiration
+In an era where technical barriers are lower than ever, the real competitive advantage lies in ideas, not implementation.
+
+But here's the paradox: when you brainstorm with a single AI, you're trapped in a single context thread. Every response builds on the same perspective, creating an echo chamber rather than true multi-dimensional thinking.
+
+Traditional AI chat can refine your ideas, but it cannot challenge them from fundamentally different worldviews. You need conflicting perspectives to stress-test an idea—and that's what **BrainStormer** delivers.
+
+## What it does
+BrainStormer is a multi-agent brainstorming platform that simulates a "podcast-style" debate between three distinct AI personas, each with a unique worldview and voice:
+
+**Dynamic Agent Generation**: Agents are automatically generated based on the topic input to ensure the most relevant perspectives.
+*   **Fallback Personas**: In case agent generation fails, the system defaults to:
+    1.  **The Philosopher**: Deep, Socratic, and focused on ethics and first principles.
+    2.  **The Scientist**: Empirical, skeptical, and demanding of evidence.
+    3.  **The Artist**: Intuitive, emotional, and focused on human experience.
+
+Users provide a topic (e.g., "Will AI replace creativity?"), and these agents engage in a dynamic, voice-enabled discussion. They don't just take turns; they interrupt, agree, challenge, and build upon each other using our **Intelligent Turn-Taking System**.
+
+Key features:
+*   **Multi-Perspective Debate**: Agents are forced to disagree and challenge assumptions.
+*   **Real-Time Web Search**: Agents use DuckDuckGo to pull in real-world facts to support their arguments.
+*   **Distinct Voices**: Integrated **Fish Audio** TTS gives each agent a unique, emotive voice.
+*   **Dynamic Flow**: No robotic round-robin. An LLM orchestrator decides who speaks next based on conversation flow and "drama".
+
+## How we built it
+We moved away from a complex microservices architecture to a streamlined, high-performance monolith.
+
+*   **Core Engine**: Python & **FastAPI**.
+*   **Agent Orchestration**: **Microsoft AutoGen**. We customized the `ConversableAgent` to enforce strict persona boundaries.
+*   **Intelligence**: **GPT-4o-mini** for both agent responses and the orchestration logic.
+*   **Voice**: **Fish Audio API**. We use their high-fidelity TTS to generate distinct voices for each persona (e.g., "Energetic Male" for the Scientist, "Sarah" for the Artist).
+*   **Search**: **DuckDuckGo Search** tool integration allows agents to ground their arguments in reality.
+*   **Frontend**: Jinja2 Templates + Vanilla JS for a lightweight, responsive UI that updates in real-time via **WebSockets**.
+
+## Challenges we ran into
+*   **The "Politeness" Problem**: Initially, the agents were too nice to each other. They would constantly say "I agree with you." We had to rigorously tune the system prompts to encourage conflict, skepticism, and "intellectual collision."
+*   **Robotic Turn-Taking**: A simple loop (A -> B -> C) felt unnatural. We built a custom `_select_next_speaker` function that analyzes the last few turns and decides who *should* speak next to maximize engagement, or if the user was addressed directly.
+*   **Latency vs. Quality**: Generating high-quality audio takes time. We optimized this by using Fish Audio's "balanced" latency mode and processing audio generation asynchronously while the text is being displayed.
+
+## Accomplishments that we're proud of
+*   **"It feels alive"**: The combination of the intelligent turn-taking and the emotive voices makes the conversation feel like a real podcast.
+*   **Voice Cloning**: We successfully implemented a feature to clone voices, allowing for potentially infinite custom personas.
+*   **Simplified Architecture**: We successfully refactored the project from a split React/Python repo into a single, easy-to-deploy FastAPI application without losing functionality.
+
+## What we learned
+*   **Context is King**: Managing the context window for multiple agents is tricky. We learned to summarize and truncate history effectively to keep the debate focused.
+*   **Voice Changes Perception**: The exact same text is perceived completely differently depending on the voice. A "Scientist" voice makes a statement sound like a fact, while a "Philosopher" voice makes it sound like a theory.
+
+## What's next for Brainstormer
+*   **Visual Avatars**: Adding lip-syncing 3D or 2D avatars to match the voices.
+*   **User Voice Intervention**: Allowing the user to interrupt the debate with their own voice (Speech-to-Text).
+*   **Export to Podcast**: One-click generation of an MP3 file of the entire debate to listen to on the go.
+*   **More Roles**: Adding an "Economist", "Historian", or "Futurist" to the roster.
 
 ---
 
-**Warning**: Please be sure to protect your OpenAI API key and do not leak it to public code repositories!
+## 🛠 Installation & Run
 
+### Prerequisites
+- Python 3.9+
+- OpenAI API Key
+- Fish Audio API Key (optional, for TTS)
+
+### Setup
+
+1.  **Clone the repo**
+    ```bash
+    git clone <repo-url>
+    cd argueAI
+    ```
+
+2.  **Install dependencies**
+    ```bash
+    python -m venv venv
+    source venv/bin/activate  # Windows: venv\Scripts\activate
+    pip install -r requirements.txt
+    ```
+
+3.  **Configure Environment**
+    Create a `.env` file:
+    ```env
+    OPENAI_API_KEY=your_key_here
+    FISH_AUDIO_API_KEY=your_fish_audio_key  # Optional
+    ```
+
+4.  **Run**
+    ```bash
+    python src/main.py
+    ```
+    Visit `http://localhost:8000` to start brainstorming!
