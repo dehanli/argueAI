@@ -251,7 +251,7 @@ Selected speaker:"""
         response = client.chat.completions.create(
             model=os.getenv("OPENAI_MODEL", "gpt-4o-mini"),
             messages=[{"role": "user", "content": selection_prompt}],
-            temperature=0.7,  # Increased from 0.3 to 0.7
+            temperature=0.9,  # Increased from 0.3 to 0.7
             max_tokens=20
         )
 
